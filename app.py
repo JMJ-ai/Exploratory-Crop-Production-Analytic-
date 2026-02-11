@@ -130,9 +130,9 @@ elif page == "🧠 Cluster Insights":
 )
 
 # Apply log scale ONLY to axis display
-fig.update_xaxes(type="log")
+   fig.update_xaxes(type="log")
 
-st.plotly_chart(fig, use_container_width=True)
+   st.plotly_chart(fig, use_container_width=True)
 
 
     st.markdown("""
