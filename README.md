@@ -14,7 +14,7 @@ This project analyzes Malaysia’s crop production patterns across states and ye
 
 •	Data source: DOSM Open Data (Agriculture – Crop Production)
 ___________________________________________________________________________________________________________________________________________________________________________________________
-**ata Preparation & EDA (Python)**
+**Data Preparation & EDA (Python)**
 
 Exploratory data analysis was conducted in Python to understand distribution, trends, and regional variation.
 
@@ -28,7 +28,7 @@ Key steps:
 
 •	Log-scaling for highly skewed production values
 ___________________________________________________________________________________________________________________________________________________________________________________________
-**🔹 Machine Learning: Pattern Discovery**
+**Machine Learning: Pattern Discovery**
 
 Unsupervised Learning – K-Means Clustering
 
