@@ -1,5 +1,5 @@
 ![image](Header.png)
-**🔹 Project Overview**
+**Project Overview**
 
 This project analyzes Malaysia’s crop production patterns across states and years using exploratory data analysis, machine learning, and interactive dashboards. The goal is to uncover regional crop specialization, production trends, and risk patterns, and translate these insights into decision-ready visuals.
 
@@ -14,7 +14,7 @@ This project analyzes Malaysia’s crop production patterns across states and ye
 
 •	Data source: DOSM Open Data (Agriculture – Crop Production)
 ___________________________________________________________________________________________________________________________________________________________________________________________
-**🔹 Data Preparation & EDA (Python)**
+**ata Preparation & EDA (Python)**
 
 Exploratory data analysis was conducted in Python to understand distribution, trends, and regional variation.
 
@@ -42,7 +42,7 @@ States were clustered based on:
 
 This allowed discovery of natural groupings without predefined labels.
 
-**📊 Model Justification**
+**Model Justification**
 
 •	Elbow Method → optimal number of clusters
 
@@ -50,7 +50,7 @@ This allowed discovery of natural groupings without predefined labels.
 
 •	PCA → 2D visualization for interpretability
 
-**🏷 Cluster Interpretation**
+**Cluster Interpretation**
 
 Clusters were labeled using dominant crop composition:
 
@@ -60,9 +60,9 @@ Clusters were labeled using dominant crop composition:
 
 •	Flower + rice-focused
 
-📌 ML output was exported and reused in Power BI and Streamlit.
+ML output was exported and reused in Power BI and Streamlit.
 ___________________________________________________________________________________________________________________________________________________________________________________________
-**🔹 Power BI Dashboard (Storytelling Layer)**
+**Power BI Dashboard (Storytelling Layer)**
 
 Power BI was used as the decision-facing layer to translate technical findings into intuitive insights.
 
