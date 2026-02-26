@@ -1,3 +1,4 @@
+![image](Header.png)
 **🔹 Project Overview**
 
 This project analyzes Malaysia’s crop production patterns across states and years using exploratory data analysis, machine learning, and interactive dashboards. The goal is to uncover regional crop specialization, production trends, and risk patterns, and translate these insights into decision-ready visuals.
