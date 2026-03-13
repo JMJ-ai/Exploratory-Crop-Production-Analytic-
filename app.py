@@ -117,7 +117,7 @@ nav = st.radio(
 # =================================================
 if nav == "Home":
 
-    set_background("https://i.pinimg.com/1200x/a3/3c/96/a33c968a4561111e2b4ce37a8d7d3617.jpg")
+    set_background("https://i.pinimg.com/736x/b0/23/3b/b0233bbc37682d2eb28d5692341296b1.jpg")
 
 
     # =====================================
