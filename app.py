@@ -355,7 +355,7 @@ elif nav == "Prediction":
         st.write("Algorithm:",config["model"]["algorithm_pred"])
         st.write("R square score:",config["model"]["r_square_score"])
         st.write("RMSE:",config["model"]["rmse"])
-        st.write("Average CV Score:",config["model"]["avg_CV_score"])
+        st.write("MAE:",config["model"]["MAE"])
         
     with col2:
         st.subheader("✨ Prediction Tool")
@@ -397,7 +397,6 @@ elif nav == "Forecasting":
         
         st.subheader("ℹ️ Forecasting Model Info")
         st.write("Algorithm:",config["model"]["algorithm_forecast"])
-        st.write("MAE:",config["model"]["MAE"])
         st.write("RMSE:",config["model"]["rmse_forecast"])
         st.write("MAPE:",config["model"]["MAPE"])
         
