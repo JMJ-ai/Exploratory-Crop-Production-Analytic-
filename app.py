@@ -361,40 +361,44 @@ elif nav == "Prediction":
         st.subheader("✨ Prediction Tool")
         crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
         state = st.selectbox("State", sorted(df["state"].unique()))
-        planted_area = st.number_input(
-            "Planted Area (hectares)",
-            min_value=0.0,
-            value=1000.0
+        planted_area_input = st.text_input(
+        "Planted Area (hectares)",
+        "1000"
         )
 
-        precipitation = st.number_input(
-            "Precipitation (mm)",
-            min_value=0.0,
-            value=200.0
+        precipitation_input = st.text_input(
+        "Precipitation (mm)",
+        "200"
         )
+
 
     with col3:
         year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
 
         if st.button("Predict Production"):
 
-            input_df = pd.DataFrame({
-                "state": [state],
-                "crop_type": [crop],
-                "planted_area":[planted_area],
-                "precipitation":[precipitation],
-                "year": [year]
-            })
+            try:
 
-            # Model prediction (log scale output)
-            log_prediction = prediction_model.predict(input_df)
+                planted_area = float(planted_area_input)
+                precipitation = float(precipitation_input)
 
-            # Reverse log transformation
-            prediction = np.expm1(log_prediction[0])
+                input_df = pd.DataFrame({
+                    "state": [state],
+                    "crop_type": [crop],
+                    "planted_area":[planted_area],
+                    "precipitation":[precipitation],
+                    "year": [year]
+                })
 
-            st.success(f"Predicted Production: {prediction:,.2f}")
+                # Model prediction (log scale output)
+                log_prediction = prediction_model.predict(input_df)
 
-            st.caption("Prediction converted back from log scale to actual production value.")
+                # Reverse log transformation
+                prediction = np.expm1(log_prediction[0])
+
+                st.success(f"Predicted Production: {prediction:,.2f}")
+
+                st.caption("Prediction converted back from log scale to actual production value.")
 # =================================================
 # ML FORECASTING
 # =================================================
