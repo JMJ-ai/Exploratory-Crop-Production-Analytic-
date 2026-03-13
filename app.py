@@ -41,6 +41,7 @@ def load_config():
 
 config = load_config()
 
+cluster_df = load_clusters()
 df = load_data()
 df["date"] = pd.to_datetime(df["date"])
 prediction_model = load_model_pred()
