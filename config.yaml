@@ -1,10 +1,9 @@
 model:
   algorithm_pred: XgBoost
   r_square_score: 0.99
-  rmse: 1.282802e+06
-  MAE_1: 2.038100e+05
+  rmse: 6.11
+  MAE: 5.31
 
-  algorithm_forecast: Random Forest
-  MAE: 0.55
-  rmse_forecast: 0.75
-  MAPE: 17.73
+  algorithm_forecast: Prophet
+  rmse_forecast: 2.45
+  MAPE: 0.67
