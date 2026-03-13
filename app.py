@@ -376,25 +376,25 @@ elif nav == "Prediction":
     with col3:
         year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
 
-    if st.button("Predict Production"):
+        if st.button("Predict Production"):
 
-        input_df = pd.DataFrame({
-            "state": [state],
-            "crop_type": [crop],
-            "planted_area":[planted_area],
-            "precipitation":[precipitation],
-            "year": [year]
-        })
+            input_df = pd.DataFrame({
+                "state": [state],
+                "crop_type": [crop],
+                "planted_area":[planted_area],
+                "precipitation":[precipitation],
+                "year": [year]
+            })
 
-        # Model prediction (log scale output)
-        log_prediction = prediction_model.predict(input_df)
+            # Model prediction (log scale output)
+            log_prediction = prediction_model.predict(input_df)
 
-        # Reverse log transformation
-        prediction = np.expm1(log_prediction[0])
+            # Reverse log transformation
+            prediction = np.expm1(log_prediction[0])
 
-        st.success(f"Predicted Production: {prediction:,.2f}")
+            st.success(f"Predicted Production: {prediction:,.2f}")
 
-        st.caption("Prediction converted back from log scale to actual production value.")
+            st.caption("Prediction converted back from log scale to actual production value.")
 # =================================================
 # ML FORECASTING
 # =================================================
