@@ -361,6 +361,17 @@ elif nav == "Prediction":
         st.subheader("✨ Prediction Tool")
         crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
         state = st.selectbox("State", sorted(df["state"].unique()))
+        planted_area = st.number_input(
+            "Planted Area (hectares)",
+            min_value=0.0,
+            value=1000.0
+        )
+
+        precipitation = st.number_input(
+            "Precipitation (mm)",
+            min_value=0.0,
+            value=200.0
+        )
 
     with col3:
         year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
@@ -370,6 +381,8 @@ elif nav == "Prediction":
         input_df = pd.DataFrame({
             "state": [state],
             "crop_type": [crop],
+            "planted_area":[planted_area],
+            "precipitation":[precipitation],
             "year": [year]
         })
 
