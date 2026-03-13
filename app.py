@@ -398,7 +398,12 @@ elif nav == "Prediction":
 
                 st.success(f"Predicted Production: {prediction:,.2f}")
 
-                st.caption("Prediction converted back from log scale to actual production value.")
+                st.caption(
+                "Prediction converted back from log scale to actual production value."
+                )
+
+            except ValueError:
+                st.error("Please enter valid numeric values for Planted Area and Precipitation.")
 # =================================================
 # ML FORECASTING
 # =================================================
