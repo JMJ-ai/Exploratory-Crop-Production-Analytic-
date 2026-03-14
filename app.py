@@ -704,6 +704,10 @@ elif nav == "Forecasting":
 
                     st.subheader("Forecast Result")
 
+                    result_card.success(
+                        f"🌾 Forecasted Production\n\n{forecast:,.2f}"
+                    )
+
                     fig = go.Figure()
 
                     fig.add_trace(go.Scatter(
@@ -716,6 +720,12 @@ elif nav == "Forecasting":
                         fig,
                         use_container_width=True
                     )
+
+                    st.subheader("Trend & Seasonality")
+
+                    comp_fig = model.plot_components(forecast)
+
+                    st.pyplot(comp_fig)
 # -------------------------------------------------
 # FOOTER
 # -------------------------------------------------
