@@ -463,47 +463,49 @@ elif nav == "Cluster Insights":
 # ==================================================
 # PAGE 4 – ML PREDICTION
 # ==================================================
-st.markdown("""
-<style>
-
-/* MAIN DASHBOARD CONTAINER */
-.st-key-main_container{
-    padding:30px;
-    border-radius:15px;
-    backdrop-filter: blur(6px);
-}
-
-/* SIDEBAR PANEL */
-.st-key-sidebar{
-    background-color:#062906;
-    padding:25px;
-    border-radius:12px;
-    min-height:450px;
-    color:white;
-}
-
-/* MAIN CONTENT PANEL */
-.st-key-mainpanel{
-    background-color:rgba(0,0,0,0);
-    padding:25px;
-    border-radius:12px;
-    min-height:450px;
-    color:white;
-}
-
-/* subtle card for results */
-.result-card{
-    background:rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.15);
-    font-size:22px;
-    text-align:center;
-}
-
-</style>
-""", unsafe_allow_html=True)
+)
 elif nav == "Prediction":
+
+    st.markdown("""
+    <style>
+
+    /* MAIN DASHBOARD CONTAINER */
+    .st-key-main_container{
+        padding:30px;
+        border-radius:15px;
+        backdrop-filter: blur(6px);
+    }
+
+    /* SIDEBAR PANEL */
+    .st-key-sidebar{
+        background-color:#062906;
+        padding:25px;
+        border-radius:12px;
+        min-height:450px;
+        color:white;
+    }
+
+    /* MAIN CONTENT PANEL */
+    .st-key-mainpanel{
+        background-color:rgba(0,0,0,0);
+        padding:25px;
+        border-radius:12px;
+        min-height:450px;
+        color:white;
+    }
+
+    /* subtle card for results */
+    .result-card{
+        background:rgba(255,255,255,0.08);
+        padding:20px;
+        border-radius:12px;
+        border:1px solid rgba(255,255,255,0.15);
+        font-size:22px;
+        text-align:center;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
@@ -599,48 +601,48 @@ elif nav == "Prediction":
 # =================================================
 # ML FORECASTING
 # =================================================
-st.markdown("""
-<style>
-
-/* MAIN DASHBOARD CONTAINER */
-.st-key-main_container{
-    padding:30px;
-    border-radius:15px;
-    backdrop-filter: blur(6px);
-}
-
-/* SIDEBAR PANEL */
-.st-key-sidebar{
-    background-color:#062906;
-    padding:25px;
-    border-radius:12px;
-    min-height:450px;
-    color:white;
-}
-
-/* MAIN CONTENT PANEL */
-.st-key-mainpanel{
-    background-color:rgba(0,0,0,0);
-    padding:25px;
-    border-radius:12px;
-    min-height:450px;
-    color:white;
-}
-
-/* subtle card for results */
-.result-card{
-    background:rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.15);
-    font-size:22px;
-    text-align:center;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
 elif nav == "Forecasting":
+
+    st.markdown("""
+    <style>
+
+    /* MAIN DASHBOARD CONTAINER */
+    .st-key-main_container{
+        padding:30px;
+        border-radius:15px;
+        backdrop-filter: blur(6px);
+    }
+
+    /* SIDEBAR PANEL */
+    .st-key-sidebar{
+        background-color:#062906;
+        padding:25px;
+        border-radius:12px;
+        min-height:450px;
+        color:white;
+    }
+
+    /* MAIN CONTENT PANEL */
+    .st-key-mainpanel{
+        background-color:rgba(0,0,0,0);
+        padding:25px;
+        border-radius:12px;
+        min-height:450px;
+        color:white;
+    }
+
+    /* subtle card for results */
+    .result-card{
+        background:rgba(255,255,255,0.08);
+        padding:20px;
+        border-radius:12px;
+        border:1px solid rgba(255,255,255,0.15);
+        font-size:22px;
+        text-align:center;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
