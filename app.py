@@ -521,7 +521,7 @@ elif nav == "Prediction":
             with st.container(key="sidebar"):
             
                 st.image("https://i.pinimg.com/1200x/68/fd/7b/68fd7b646d8f0b18ab50204dd32c807f.jpg")
-                st.subheader("Fill details below to predict crop production")
+                st.write("Fill details below to predict crop production")
                 
                 crop = st.selectbox(
                     "Crop Type",
@@ -659,7 +659,7 @@ elif nav == "Forecasting":
             with st.container(key="sidebar"):
 
                 st.image("https://i.pinimg.com/736x/40/f3/e6/40f3e6bd988eb9dfce39658b65b5c469.jpg")
-                st.subheader("Fill details below to forecast crop production")
+                st.write("Fill details below to forecast crop production")
                 
                 crop_list = list(prophet_models.keys())
 
