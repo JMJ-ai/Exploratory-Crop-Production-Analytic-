@@ -335,6 +335,7 @@ elif nav == "Exploratory Data Analysis":
             fig2 = px.histogram(
                 state_total,
                 x="log_total",
+                color="state",
                 nbins=10,
                 title="Distribution of Total Production (Log Scale)"
             )
@@ -570,6 +571,7 @@ elif nav == "Prediction":
         # Row 3
             with r3c1:
                 crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
+                state = st.selectbox("State", sorted(df["state"].unique()))
 
         # RESULT CARD PLACEHOLDER
             with r3c2:
