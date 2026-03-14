@@ -437,6 +437,10 @@ elif nav == "Cluster Insights":
         )
 
         fig.update_xaxes(type="log")
+        fig.update_layout(
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)"
+        )
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -516,7 +520,7 @@ elif nav == "Prediction":
         # -------------------------------------------------
         # COLUMNS
         # -------------------------------------------------
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
         # -------------------------------------------------
         # MODEL INFO
@@ -535,57 +539,66 @@ elif nav == "Prediction":
     # PREDICTION INPUT
     # -------------------------------------------------
     with col2:
-        with st.container(key="col_tool"):
+    with st.container(key="col_tool"):
 
-            st.subheader("✨ Prediction Tool")
+        st.subheader("✨ Prediction Tool")
 
+        # Create rows
+        r1c1, r1c2 = st.columns(2)
+        r2c1, r2c2 = st.columns(2)
+        r3c1, r3c2 = st.columns(2)
+
+        # Row 1
+        with r1c1:
+            planted_area_input = st.text_input("Planted Area (hectares)", "1000")
+
+        with r1c2:
+            year = st.slider(
+                "Year",
+                int(df["year"].min()),
+                int(df["year"].max()+3),
+                2023
+            )
+
+        # Row 2
+        with r2c1:
+            precipitation_input = st.text_input("Precipitation (mm)", "200")
+
+        with r2c2:
+            predict_button = st.button("Predict Production")
+
+        # Row 3
+        with r3c1:
             crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
-            state = st.selectbox("State", sorted(df["state"].unique()))
 
-            planted_area_input = st.text_input(
-                "Planted Area (hectares)",
-                "1000"
-            )
+        # RESULT CARD PLACEHOLDER
+        with r3c2:
+            result_card = st.empty()
 
-            precipitation_input = st.text_input(
-                "Precipitation (mm)",
-                "200"
-            )
+        # Prediction Logic
+        if predict_button:
+            try:
 
-    # -------------------------------------------------
-    # YEAR + PREDICT BUTTON
-    # -------------------------------------------------
-    with col3:
-        with st.container(key="col_year"):
+                planted_area = float(planted_area_input)
+                precipitation = float(precipitation_input)
 
-            year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
+                input_df = pd.DataFrame({
+                    "state": [state],
+                    "crop_type": [crop],
+                    "planted_area": [planted_area],
+                    "precipitation": [precipitation],
+                    "year": [year]
+                })
 
-            if st.button("Predict Production"):
+                log_prediction = prediction_model.predict(input_df)
+                prediction = np.expm1(log_prediction[0])
 
-                try:
-                    planted_area = float(planted_area_input)
-                    precipitation = float(precipitation_input)
+                result_card.success(
+                    f"🌾 Predicted Production\n\n{prediction:,.2f}"
+                )
 
-                    input_df = pd.DataFrame({
-                        "state": [state],
-                        "crop_type": [crop],
-                        "planted_area": [planted_area],
-                        "precipitation": [precipitation],
-                        "year": [year]
-                    })
-
-                    log_prediction = prediction_model.predict(input_df)
-
-                    prediction = np.expm1(log_prediction[0])
-
-                    st.success(f"Predicted Production: {prediction:,.2f}")
-
-                    st.caption(
-                        "Prediction converted back from log scale to actual production value."
-                    )
-
-                except ValueError:
-                    st.error("Please enter valid numeric values for Planted Area and Precipitation.")
+            except ValueError:
+                result_card.error("Invalid numeric input.")
 # =================================================
 # ML FORECASTING
 # =================================================
@@ -727,6 +740,8 @@ elif nav == "Forecasting":
                 title=f"{selected_crop} Production Forecast",
                 xaxis_title="Year",
                 yaxis_title="Production",
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
                 template="plotly_white"
             )
 
