@@ -688,7 +688,8 @@ elif nav == "Forecasting":
                 st.write("Algorithm:",config["model"]["algorithm_forecast"])
                 st.write("RMSE:",config["model"]["rmse_forecast"])
                 st.write("MAPE:",config["model"]["MAPE"])
-
+                
+                result_placeholder = st.empty()
                 if forecast_button:
 
                     model = prophet_models[selected_crop]
@@ -704,9 +705,15 @@ elif nav == "Forecasting":
 
                     st.subheader("Forecast Result")
 
-                    result_card.success(
-                        f"🌾 Forecasted Production\n\n{forecast:,.2f}"
-                    )
+                    result_placeholder.markdown(
+                            f"""
+                            <div class="result-card">
+                            🌾 Forecasted Production<br><br>
+                            <b>{forecast:,.2f}</b>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
 
                     fig = go.Figure()
 
