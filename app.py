@@ -376,6 +376,7 @@ elif nav == "Exploratory Data Analysis":
 elif nav == "Cluster Insights":
 
     st.title("State Clustering by Agricultural Profile")
+    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
     st.markdown("""
     <style>
@@ -456,87 +457,49 @@ elif nav == "Prediction":
     Final model selected based on lowest RMSE and highest R².
     """)
 
-    # -------------------------------------------------
+     # -------------------------------------------------
     # CUSTOM CONTAINER STYLING
     # -------------------------------------------------
-    st.markdown("""
-    <style>
+    st.markdown(
+        """
+        <style>
 
-    /* -------- GLOBAL TEXT -------- */
-    html, body, [class*="css"]  {
-        font-family: 'Segoe UI', sans-serif;
-    }
+        /* General container styling */
+        [class*="st-key-col_"] {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
 
-    /* Hover animation */
-    [class*="st-key-col_"]:hover{
-        transform: translateY(-6px);
-        box-shadow:
-            0px 10px 35px rgba(0,0,0,0.9),
-            0px 0px 10px rgba(255,255,255,0.15);
-    }
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
 
-    /* -------- HEADER STYLE -------- */
-    h1, h2, h3 {
-        color: white;
-        font-weight: 600;
-    }
+            backdrop-filter: blur(6px);
+            transition: transform 0.3s ease;
+            min-height: 300px;
+        }
 
-    /* -------- INPUT BOXES -------- */
-    .stTextInput input,
-    .stNumberInput input,
-    .stSelectbox div,
-    .stSlider {
+        /* Hover animation */
+        [class*="st-key-col_"]:hover {
+            transform: translateY(-5px);
+        }
 
-        background-color: rgba(255,255,255,0.08) !important;
-        color: white !important;
+        /* Specific container colors */
+        .st-key-col_info {
+            background: rgba(93, 64, 55, 0.85);
+        }
 
-        border-radius: 10px;
-        border: 1px solid rgba(255,255,255,0.15);
+        .st-key-col_tool {
+            background: rgba(46, 125, 50, 0.85);
+        }
 
-    }
+        .st-key-col_year {
+            background: rgba(25, 118, 210, 0.85);
+        }
 
-    /* -------- BUTTON STYLE -------- */
-    .stButton>button {
-
-        background: linear-gradient(135deg,#00c6ff,#0072ff);
-        color: white;
-        border-radius: 12px;
-
-        border: none;
-        padding: 10px 20px;
-
-        font-weight: 600;
-
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.5);
-
-        transition: all 0.2s ease;
-
-    }
-
-    /* Button hover */
-    .stButton>button:hover {
-
-        transform: scale(1.05);
-        box-shadow: 0px 6px 18px rgba(0,0,0,0.7);
-
-    }
-
-    /* -------- SUCCESS BOX -------- */
-    .stSuccess {
-
-        border-radius: 10px;
-        background: rgba(46, 204, 113,0.2);
-        border: 1px solid rgba(46,204,113,0.5);
-
-    }
-
-    /* -------- SLIDER COLOR -------- */
-    .stSlider div[data-baseweb="slider"] > div {
-        background-color: #00c6ff;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
         # -------------------------------------------------
         # COLUMNS
