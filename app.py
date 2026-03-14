@@ -340,25 +340,6 @@ elif nav == "Prediction":
     html, body, [class*="css"]  {
         font-family: 'Segoe UI', sans-serif;
     }
-    
-    /* -------- GLASS PANEL STYLE -------- */
-    [class*="st-key-col_"] {
-
-        background: rgba(20, 20, 20, 0.65);
-        backdrop-filter: blur(10px);
-
-        padding: 25px;
-        border-radius: 18px;
-
-        border: 1px solid rgba(255,255,255,0.1);
-
-        box-shadow:
-            0px 8px 30px rgba(0,0,0,0.7),
-            inset 0px 0px 15px rgba(255,255,255,0.03);
-
-        transition: all 0.25s ease;
-
-    }
 
     /* Hover animation */
     [class*="st-key-col_"]:hover{
