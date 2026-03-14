@@ -185,6 +185,7 @@ if nav == "Home":
     <p style="text-align:center;color:white;">
     Data source:
     <a href="https://climateknowledgeportal.worldbank.org/country/malaysia/climate-data-historical" target="_blank" style="color:#FFD700;">Climate Knowledge Portal</a>
+    <br>
     <a href="https://open.dosm.gov.my/data-catalogue" target="_blank" style="color:#FFD700;">OpenDOSM</a>
     </p>
 
@@ -218,23 +219,8 @@ if nav == "Home":
     <br>
 
     <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    Crop production in Malaysia varies across states and over time due to differences 
-    in regional specialization, environmental conditions, and agricultural practices.
-    </p>
-
-    <br>
-
-    <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    These variations make it difficult for stakeholders to clearly understand production patterns, 
-    identify potential risks, and plan for future agricultural output. Although historical agricultural data is available, 
-    it is often underutilized for generating actionable insights.
-    </p>
-
-    <br>
-
-    <p style="color:white;font-size:18px;text-align:center;max-width:900px;margin:auto;">
-    This project addresses the gap by analyzing Malaysia’s crop production data to uncover regional trends, identify crop specialization across states, 
-    and forecast future production using machine learning and time-series models.
+    Crop production in Malaysia varies across states and over time due to differences in regional specialization, environmental conditions, and agricultural practices. These variations make it difficult for stakeholders to clearly understand production patterns, 
+    identify potential risks, and plan for future agricultural output. Although historical agricultural data is available, it is often underutilized for generating actionable insights. This project addresses the gap by analyzing Malaysia’s crop production data to uncover regional trends, identify crop specialization across states,and forecast future production using machine learning and time-series models.
     </p>
 
     </div>
@@ -347,55 +333,112 @@ elif nav == "Prediction":
     # -------------------------------------------------
     # CUSTOM CONTAINER STYLING
     # -------------------------------------------------
-    st.markdown(
-        """
-        <style>
+    st.markdown("""
+    <style>
 
-        /* General container styling */
-        [class*="st-key-col_"] {
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
+    /* -------- GLOBAL TEXT -------- */
+    html, body, [class*="css"]  {
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    /* -------- GLASS PANEL STYLE -------- */
+    [class*="st-key-col_"] {
 
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
+        background: rgba(20, 20, 20, 0.65);
+        backdrop-filter: blur(10px);
 
-            backdrop-filter: blur(6px);
-            transition: transform 0.3s ease;
-            min-height: 300px;
-        }
+        padding: 25px;
+        border-radius: 18px;
 
-        /* Hover animation */
-        [class*="st-key-col_"]:hover {
-            transform: translateY(-5px);
-        }
+        border: 1px solid rgba(255,255,255,0.1);
 
-        /* Specific container colors */
-        .st-key-col_info {
-            background: rgba(93, 64, 55, 0.85);
-        }
+        box-shadow:
+            0px 8px 30px rgba(0,0,0,0.7),
+            inset 0px 0px 15px rgba(255,255,255,0.03);
 
-        .st-key-col_tool {
-            background: rgba(46, 125, 50, 0.85);
-        }
+        transition: all 0.25s ease;
 
-        .st-key-col_year {
-            background: rgba(25, 118, 210, 0.85);
-        }
+    }
 
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    /* Hover animation */
+    [class*="st-key-col_"]:hover{
+        transform: translateY(-6px);
+        box-shadow:
+            0px 10px 35px rgba(0,0,0,0.9),
+            0px 0px 10px rgba(255,255,255,0.15);
+    }
 
-    # -------------------------------------------------
-    # COLUMNS
-    # -------------------------------------------------
+    /* -------- HEADER STYLE -------- */
+    h1, h2, h3 {
+        color: white;
+        font-weight: 600;
+    }
+
+    /* -------- INPUT BOXES -------- */
+    .stTextInput input,
+    .stNumberInput input,
+    .stSelectbox div,
+    .stSlider {
+
+        background-color: rgba(255,255,255,0.08) !important;
+        color: white !important;
+
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.15);
+
+    }
+
+    /* -------- BUTTON STYLE -------- */
+    .stButton>button {
+
+        background: linear-gradient(135deg,#00c6ff,#0072ff);
+        color: white;
+        border-radius: 12px;
+
+        border: none;
+        padding: 10px 20px;
+
+        font-weight: 600;
+
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.5);
+
+        transition: all 0.2s ease;
+
+    }
+
+    /* Button hover */
+    .stButton>button:hover {
+
+        transform: scale(1.05);
+        box-shadow: 0px 6px 18px rgba(0,0,0,0.7);
+
+    }
+
+    /* -------- SUCCESS BOX -------- */
+    .stSuccess {
+
+        border-radius: 10px;
+        background: rgba(46, 204, 113,0.2);
+        border: 1px solid rgba(46,204,113,0.5);
+
+    }
+
+    /* -------- SLIDER COLOR -------- */
+    .stSlider div[data-baseweb="slider"] > div {
+        background-color: #00c6ff;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+        # -------------------------------------------------
+        # COLUMNS
+        # -------------------------------------------------
     col1, col2, col3 = st.columns(3)
 
-    # -------------------------------------------------
-    # MODEL INFO
-    # -------------------------------------------------
+        # -------------------------------------------------
+        # MODEL INFO
+        # -------------------------------------------------
     with col1:
         with st.container(key="col_info"):
 
