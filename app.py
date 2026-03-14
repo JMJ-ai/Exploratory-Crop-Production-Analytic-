@@ -463,7 +463,6 @@ elif nav == "Cluster Insights":
 # ==================================================
 # PAGE 4 – ML PREDICTION
 # ==================================================
-)
 elif nav == "Prediction":
 
     st.markdown("""
