@@ -463,97 +463,84 @@ elif nav == "Cluster Insights":
 # ==================================================
 # PAGE 4 – ML PREDICTION
 # ==================================================
+st.markdown("""
+<style>
+
+/* MAIN DASHBOARD CONTAINER */
+.st-key-main_container{
+    padding:30px;
+    border-radius:15px;
+    backdrop-filter: blur(6px);
+}
+
+/* SIDEBAR PANEL */
+.st-key-sidebar{
+    background-color:#062906;
+    padding:25px;
+    border-radius:12px;
+    min-height:450px;
+    color:white;
+}
+
+/* MAIN CONTENT PANEL */
+.st-key-mainpanel{
+    background-color:rgba(0,0,0,0);
+    padding:25px;
+    border-radius:12px;
+    min-height:450px;
+    color:white;
+}
+
+/* subtle card for results */
+.result-card{
+    background:rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.15);
+    font-size:22px;
+    text-align:center;
+}
+
+</style>
+""", unsafe_allow_html=True)
 elif nav == "Prediction":
 
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
-    st.title("📊 Crop Production Prediction")
+    st.title("🌾 Crop Production Prediction")
 
-    st.markdown("""
-    Model trained using log-transformed production values  
-    Final model selected based on lowest RMSE and highest R².
-    """)
+    with st.container(key="main_container"):
 
-     # -------------------------------------------------
-    # CUSTOM CONTAINER STYLING
-    # -------------------------------------------------
-    st.markdown(
-        """
-        <style>
+        sidebar, main_page = st.columns([1,2])
 
-        /* General container styling */
-        [class*="st-key-col_"] {
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
+        # =========================
+        # SIDEBAR
+        # =========================
+        with sidebar:
+            with st.container(key="sidebar"):
 
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
+                st.subheader("Fill details below")
 
-            backdrop-filter: blur(6px);
-            transition: transform 0.3s ease;
-            min-height: 300px;
-        }
+                crop = st.selectbox(
+                    "Crop Type",
+                    sorted(df["crop_type"].unique())
+                )
 
-        /* Hover animation */
-        [class*="st-key-col_"]:hover {
-            transform: translateY(-5px);
-        }
+                state = st.selectbox(
+                    "State",
+                    sorted(df["state"].unique())
+                )
 
-        /* Specific container colors */
-        .st-key-col_info {
-            background: rgba(93, 64, 55, 0.85);
-        }
+                planted_area_input = st.text_input(
+                    "Planted Area (hectares)",
+                    "1000"
+                )
 
-        .st-key-col_tool {
-            background: rgba(46, 125, 50, 0.85);
-        }
+                precipitation_input = st.text_input(
+                    "Precipitation (mm)",
+                    "200"
+                )
 
-        .st-key-col_year {
-            background: rgba(25, 118, 210, 0.85);
-        }
-
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-        # -------------------------------------------------
-        # COLUMNS
-        # -------------------------------------------------
-    col1, col2 = st.columns(2)
-
-        # -------------------------------------------------
-        # MODEL INFO
-        # -------------------------------------------------
-    with col1:
-        with st.container(key="col_info"):
-
-            st.subheader("ℹ️ Prediction Model Info")
-
-            st.write("Algorithm:", config["model"]["algorithm_pred"])
-            st.write("R square score:", config["model"]["r_square_score"])
-            st.write("RMSE:", config["model"]["rmse"])
-            st.write("MAE:", config["model"]["MAE"])
-
-    # -------------------------------------------------
-    # PREDICTION INPUT
-    # -------------------------------------------------
-    with col2:
-        with st.container(key="col_tool"):
-
-            st.subheader("✨ Prediction Tool")
-
-        # Create rows
-            r1c1, r1c2 = st.columns(2)
-            r2c1, r2c2 = st.columns(2)
-            r3c1, r3c2 = st.columns(2)
-
-        # Row 1
-            with r1c1:
-                planted_area_input = st.text_input("Planted Area (hectares)", "1000")
-
-            with r1c2:
                 year = st.slider(
                     "Year",
                     int(df["year"].min()),
@@ -561,203 +548,171 @@ elif nav == "Prediction":
                     2023
                 )
 
-        # Row 2
-            with r2c1:
-                precipitation_input = st.text_input("Precipitation (mm)", "200")
-
-            with r2c2:
                 predict_button = st.button("Predict Production")
 
-        # Row 3
-            with r3c1:
-                crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
-                state = st.selectbox("State", sorted(df["state"].unique()))
+        # =========================
+        # MAIN PAGE
+        # =========================
+        with main_page:
+            with st.container(key="mainpanel"):
 
-        # RESULT CARD PLACEHOLDER
-            with r3c2:
-                result_card = st.empty()
+                st.subheader("Prediction Model Info")
 
-        # Prediction Logic
-            if predict_button:
-                try:
+                st.write("Algorithm:", config["model"]["algorithm_pred"])
+                st.write("R² Score:", config["model"]["r_square_score"])
+                st.write("RMSE:", config["model"]["rmse"])
+                st.write("MAE:", config["model"]["MAE"])
 
-                    planted_area = float(planted_area_input)
-                    precipitation = float(precipitation_input)
+                result_placeholder = st.empty()
 
-                    input_df = pd.DataFrame({
-                        "state": [state],
-                        "crop_type": [crop],
-                        "planted_area": [planted_area],
-                        "precipitation": [precipitation],
-                        "year": [year]
-                    })
+                if predict_button:
 
-                    log_prediction = prediction_model.predict(input_df)
-                    prediction = np.expm1(log_prediction[0])
+                    try:
 
-                    result_card.success(
-                        f"🌾 Predicted Production\n\n{prediction:,.2f}"
-                    )
+                        planted_area = float(planted_area_input)
+                        precipitation = float(precipitation_input)
 
-                except ValueError:
-                    result_card.error("Invalid numeric input.")
+                        input_df = pd.DataFrame({
+                            "state":[state],
+                            "crop_type":[crop],
+                            "planted_area":[planted_area],
+                            "precipitation":[precipitation],
+                            "year":[year]
+                        })
+
+                        log_prediction = prediction_model.predict(input_df)
+
+                        prediction = np.expm1(log_prediction[0])
+
+                        result_placeholder.markdown(
+                            f"""
+                            <div class="result-card">
+                            🌾 Predicted Production<br><br>
+                            <b>{prediction:,.2f}</b>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+
+                    except ValueError:
+                        result_placeholder.error("Invalid numeric input.")
 # =================================================
 # ML FORECASTING
 # =================================================
+st.markdown("""
+<style>
+
+/* MAIN DASHBOARD CONTAINER */
+.st-key-main_container{
+    padding:30px;
+    border-radius:15px;
+    backdrop-filter: blur(6px);
+}
+
+/* SIDEBAR PANEL */
+.st-key-sidebar{
+    background-color:#062906;
+    padding:25px;
+    border-radius:12px;
+    min-height:450px;
+    color:white;
+}
+
+/* MAIN CONTENT PANEL */
+.st-key-mainpanel{
+    background-color:rgba(0,0,0,0);
+    padding:25px;
+    border-radius:12px;
+    min-height:450px;
+    color:white;
+}
+
+/* subtle card for results */
+.result-card{
+    background:rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.15);
+    font-size:22px;
+    text-align:center;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 elif nav == "Forecasting":
 
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
-    st.title("📈 Crop Production Forecast")
-    # -------------------------------------------------
-    # CUSTOM CONTAINER STYLING
-    # -------------------------------------------------
-    st.markdown(
-        """
-        <style>
+    st.title("📈 Crop Production Forecasting")
 
-        /* General container styling */
-        [class*="st-key-col_"] {
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
+    with st.container(key="main_container"):
 
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
+        sidebar, main_page = st.columns([1,2])
 
-            backdrop-filter: blur(6px);
-            transition: transform 0.3s ease;
-            min-height: 300px;
-        }
+        # =========================
+        # SIDEBAR
+        # =========================
+        with sidebar:
+            with st.container(key="sidebar"):
 
-        /* Hover animation */
-        [class*="st-key-col_"]:hover {
-            transform: translateY(-5px);
-        }
+                st.subheader("Fill details below")
 
-        /* Specific container colors */
-        .st-key-col_info {
-            background: rgba(93, 64, 55, 0.85);
-        }
+                crop_list = list(prophet_models.keys())
 
-        .st-key-col_tool {
-            background: rgba(46, 125, 50, 0.85);
-        }
+                selected_crop = st.selectbox(
+                    "Select Crop",
+                    crop_list
+                )
 
-        .st-key-col_year {
-            background: rgba(25, 118, 210, 0.85);
-        }
+                forecast_years = st.slider(
+                    "Forecast Years",
+                    1,
+                    10,
+                    3
+                )
 
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+                forecast_button = st.button("Generate Forecast")
 
-    # -------------------------------------------------
-    # COLUMNS
-    # -------------------------------------------------
-    col1,col2 = st.columns(2)
+        # =========================
+        # MAIN PANEL
+        # =========================
+        with main_page:
+            with st.container(key="mainpanel"):
 
-    with col1:
-        with st.container(key="col_info"):
-        
-            st.subheader("ℹ️ Forecasting Model Info")
-            st.write("Algorithm:",config["model"]["algorithm_forecast"])
-            st.write("RMSE:",config["model"]["rmse_forecast"])
-            st.write("MAPE:",config["model"]["MAPE"])
-        
-            st.image(
-                "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
-                width=500
-            )
+                st.subheader("Forecasting Model Info")
 
-    with col2:
-        with st.container(key="col_tool"):
-            st.subheader("✨ Forecast Tool")
-    # --------------------------------------
-    # Crop Selection
-    # --------------------------------------
+                st.write("Algorithm:",config["model"]["algorithm_forecast"])
+                st.write("RMSE:",config["model"]["rmse_forecast"])
+                st.write("MAPE:",config["model"]["MAPE"])
 
-            crop_list = list(prophet_models.keys())
+                if forecast_button:
 
-            selected_crop = st.selectbox(
-                "Select Crop for Forecast",
-                crop_list
-            )
+                    model = prophet_models[selected_crop]
 
-            model = prophet_models[selected_crop]
+                    periods = forecast_years * 12
 
-    # --------------------------------------
-    # Forecast Horizon
-    # --------------------------------------
+                    future = model.make_future_dataframe(
+                        periods=periods,
+                        freq="M"
+                    )
 
-            forecast_years = st.slider(
-                "Forecast Years",
-                1,
-                10,
-                3
-            )
+                    forecast = model.predict(future)
 
-            periods = forecast_years * 12
+                    st.subheader("Forecast Result")
 
-            future = model.make_future_dataframe(
-                periods=periods,
-                freq="M"
-            )
+                    fig = go.Figure()
 
-            forecast = model.predict(future)
+                    fig.add_trace(go.Scatter(
+                        x=forecast["ds"],
+                        y=forecast["yhat"],
+                        name="Forecast"
+                    ))
 
-    # --------------------------------------
-    # Interactive Plot
-    # --------------------------------------
-
-            st.subheader("Production Forecast")
-
-            fig = go.Figure()
-
-            fig.add_trace(go.Scatter(
-                x=forecast["ds"],
-                y=forecast["yhat"],
-                name="Forecast",
-                line=dict(width=3)
-            ))
-
-            fig.add_trace(go.Scatter(
-                x=forecast["ds"],
-                y=forecast["yhat_upper"],
-                name="Upper Confidence",
-                line=dict(width=0, dash="dot")
-            ))
-
-            fig.add_trace(go.Scatter(
-                x=forecast["ds"],
-                y=forecast["yhat_lower"],
-                fill='tonexty',
-                fillcolor='rgba(0,100,80,0.2)',
-                name="Confidence Interval",
-                line=dict(width=0, dash="dot")
-            ))
-
-            fig.update_layout(
-                title=f"{selected_crop} Production Forecast",
-                xaxis_title="Year",
-                yaxis_title="Production",
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                template="plotly_white"
-            )
-
-            st.plotly_chart(fig, use_container_width=True)
-
-    # --------------------------------------
-    # Components Plot
-    # --------------------------------------
-
-            st.subheader("Trend & Seasonality")
-
-            comp_fig = model.plot_components(forecast)
-
-            st.pyplot(comp_fig)
+                    st.plotly_chart(
+                        fig,
+                        use_container_width=True
+                    )
 # -------------------------------------------------
 # FOOTER
 # -------------------------------------------------
