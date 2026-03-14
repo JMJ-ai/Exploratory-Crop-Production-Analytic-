@@ -340,8 +340,8 @@ elif nav == "Exploratory Data Analysis":
             )
 
             fig2.update_layout(
-                plot_bgcolor="white",
-                paper_bgcolor="white"
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)"
             )
 
             st.plotly_chart(fig2, use_container_width=True)
@@ -375,8 +375,8 @@ elif nav == "Exploratory Data Analysis":
 
         fig3.update_layout(
             height=650,
-            plot_bgcolor="white",
-            paper_bgcolor="white"
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)"
         )
 
         fig3.update_coloraxes(colorbar_title='Log10(Production)')
