@@ -250,43 +250,126 @@ elif nav == "Exploratory Data Analysis":
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
     st.title("Production Trend Analysis")
 
-    crop_selection = st.selectbox(
-        "Select Crop Type",
-        sorted(df["crop_type"].unique())
-    )
+    st.markdown("""
+    <style>
 
-    filtered = df[df["crop_type"] == crop_selection]
+    /* White glass container */
+    [class*="st-key-eda_"], 
+    [class*="st-key-cluster_"] {
 
-    # Use log scale for visualization (because skewed)
-    filtered["log_production"] = np.log10(filtered["production"] + 1)
+        background: rgba(255,255,255,0.40);
+        backdrop-filter: blur(8px);
 
-    fig = px.line(
-        filtered,
-        x="year",
-        y="log_production",
-        color="state",
-        title=f"{crop_selection} Production Trend (Log Scale)"
-    )
+        padding: 25px;
+        border-radius: 16px;
 
-    st.plotly_chart(fig, use_container_width=True)
+        border: 1px solid rgba(255,255,255,0.6);
 
-    # Distribution
-    st.subheader("Distribution of Total Production by State")
+        box-shadow: 
+            0px 6px 25px rgba(0,0,0,0.35);
 
-    state_total = df.groupby("state")["production"].sum().reset_index()
-    state_total["log_total"] = np.log10(state_total["production"] + 1)
+        transition: all 0.25s ease;
+    }
 
-    fig2 = px.histogram(
-        state_total,
-        x="log_total",
-        nbins=10,
-        title="Distribution of Total Production (Log Scale)"
-    )
+    /* Hover animation */
+    [class*="st-key-eda_"]:hover,
+    [class*="st-key-cluster_"]:hover {
 
-    st.plotly_chart(fig2, use_container_width=True)
+        transform: translateY(-4px);
+        box-shadow: 
+            0px 10px 30px rgba(0,0,0,0.45);
 
-    st.caption("Log scale used due to high production skewness (billions vs thousands).")
+    }
 
+    </style>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    # ----------------------------------
+    # Production Trend Chart
+    # ----------------------------------
+
+    with col1:
+        with st.container(key="eda_trend"):
+
+            st.subheader("Production Trend by State")
+
+            crop_selection = st.selectbox(
+                "Select Crop Type",
+                sorted(df["crop_type"].unique())
+            )
+
+            filtered = df[df["crop_type"] == crop_selection].copy()
+
+            filtered["log_production"] = np.log10(filtered["production"] + 1)
+
+            fig = px.line(
+                filtered,
+                x="year",
+                y="log_production",
+                color="state",
+                title=f"{crop_selection} Production Trend (Log Scale)"
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+    # ----------------------------------
+    # Distribution Chart
+    # ----------------------------------
+
+    with col2:
+        with st.container(key="eda_distribution"):
+
+            st.subheader("Distribution of Total Production by State")
+
+            state_total = df.groupby("state")["production"].sum().reset_index()
+
+            state_total["log_total"] = np.log10(state_total["production"] + 1)
+
+            fig2 = px.histogram(
+                state_total,
+                x="log_total",
+                nbins=10,
+                title="Distribution of Total Production (Log Scale)"
+            )
+
+            st.plotly_chart(fig2, use_container_width=True)
+
+            st.caption("Log scale used due to high production skewness.")
+
+    # ----------------------------------
+    # Heatmap
+    # ----------------------------------
+
+    with st.container(key="eda_heatmap"):
+
+        st.subheader("Crop Production Heatmap")
+
+        df_heatmap = (
+            df.groupby(['state', 'crop_type'], as_index=False)
+            .agg({'production': 'sum'})
+        )
+
+        df_heatmap['log_production'] = np.log10(df_heatmap['production'] + 1)
+
+        fig3 = px.density_heatmap(
+            df_heatmap,
+            x='crop_type',
+            y='state',
+            z='log_production',
+            color_continuous_scale='YlGn',
+            hover_data={'production': True},
+            title='Crop Production Heatmap by State and Crop Type (Log Scale)'
+        )
+
+        fig3.update_layout(
+            height=650
+        )
+
+        fig3.update_coloraxes(colorbar_title='Log10(Production)')
+
+        st.plotly_chart(fig3, use_container_width=True)
 # ==================================================
 # PAGE 3 – CLUSTERING
 # ==================================================
@@ -294,27 +377,70 @@ elif nav == "Cluster Insights":
 
     st.title("State Clustering by Agricultural Profile")
 
-    fig = px.scatter(
-        cluster_df,
-        x="avg_production",
-        y="avg_growth_rate",
-        color="cluster_label",
-        size="variability",
-        hover_name="state",
-        title="Clustered States by Production & Growth"
-    )
-
-    # Apply log scale ONLY to axis display
-    fig.update_xaxes(type="log")
-
-    st.plotly_chart(fig, use_container_width=True)
-
     st.markdown("""
-    ### Cluster Interpretation
-    - **Cluster 0**: Flower Specialized  
-    - **Cluster 1**: Mixed Crop  
-    - **Cluster 2**: Flower + Rice focused
-    """)
+    <style>
+
+    /* White glass container */
+    [class*="st-key-eda_"], 
+    [class*="st-key-cluster_"] {
+
+        background: rgba(255,255,255,0.40);
+        backdrop-filter: blur(8px);
+
+        padding: 25px;
+        border-radius: 16px;
+
+        border: 1px solid rgba(255,255,255,0.6);
+
+        box-shadow: 
+            0px 6px 25px rgba(0,0,0,0.35);
+
+        transition: all 0.25s ease;
+      }
+
+        /* Hover animation */
+    [class*="st-key-eda_"]:hover,
+    [class*="st-key-cluster_"]:hover {
+
+        transform: translateY(-4px);
+        box-shadow: 
+            0px 10px 30px rgba(0,0,0,0.45);
+
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    with st.container(key="cluster_scatter"):
+
+        fig = px.scatter(
+            cluster_df,
+            x="avg_production",
+            y="avg_growth_rate",
+            color="cluster_label",
+            size="variability",
+            hover_name="state",
+            title="Clustered States by Production & Growth"
+        )
+
+        fig.update_xaxes(type="log")
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    with st.container(key="cluster_info"):
+
+        st.markdown("""
+        ### Cluster Label Explanation
+
+        **Cluster 0 — Flower Specialized**  
+        States focusing mainly on flower production.
+
+        **Cluster 1 — Mixed Crop**  
+        States producing a variety of crops.
+
+        **Cluster 2 — Flower + Rice Focused**  
+        States with strong production in both flowers and rice.
+        """)
 
 # ==================================================
 # PAGE 4 – ML PREDICTION
@@ -493,106 +619,153 @@ elif nav == "Forecasting":
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
 
     st.title("📈 Crop Production Forecast")
+    # -------------------------------------------------
+    # CUSTOM CONTAINER STYLING
+    # -------------------------------------------------
+    st.markdown(
+        """
+        <style>
 
+        /* General container styling */
+        [class*="st-key-col_"] {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
+
+            backdrop-filter: blur(6px);
+            transition: transform 0.3s ease;
+            min-height: 300px;
+        }
+
+        /* Hover animation */
+        [class*="st-key-col_"]:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Specific container colors */
+        .st-key-col_info {
+            background: rgba(93, 64, 55, 0.85);
+        }
+
+        .st-key-col_tool {
+            background: rgba(46, 125, 50, 0.85);
+        }
+
+        .st-key-col_year {
+            background: rgba(25, 118, 210, 0.85);
+        }
+
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # -------------------------------------------------
+    # COLUMNS
+    # -------------------------------------------------
     col1,col2 = st.columns(2)
 
     with col1:
+        with st.container(key="col_info"):
         
-        st.subheader("ℹ️ Forecasting Model Info")
-        st.write("Algorithm:",config["model"]["algorithm_forecast"])
-        st.write("RMSE:",config["model"]["rmse_forecast"])
-        st.write("MAPE:",config["model"]["MAPE"])
+            st.subheader("ℹ️ Forecasting Model Info")
+            st.write("Algorithm:",config["model"]["algorithm_forecast"])
+            st.write("RMSE:",config["model"]["rmse_forecast"])
+            st.write("MAPE:",config["model"]["MAPE"])
         
-        st.image(
-            "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
-            width=500
-        )
+            st.image(
+                "https://i.pinimg.com/originals/7c/6e/ea/7c6eeaeb617ad2c17d567c7ff9621e17.gif",
+                width=500
+            )
 
     with col2:
-
-        st.subheader("✨ Forecast Tool")
+        with st.container(key="col_tool"):
+            st.subheader("✨ Forecast Tool")
     # --------------------------------------
     # Crop Selection
     # --------------------------------------
 
-        crop_list = list(prophet_models.keys())
+            crop_list = list(prophet_models.keys())
 
-        selected_crop = st.selectbox(
-            "Select Crop for Forecast",
-            crop_list
-        )
+            selected_crop = st.selectbox(
+                "Select Crop for Forecast",
+                crop_list
+            )
 
-        model = prophet_models[selected_crop]
+            model = prophet_models[selected_crop]
 
     # --------------------------------------
     # Forecast Horizon
     # --------------------------------------
 
-        forecast_years = st.slider(
-            "Forecast Years",
-            1,
-            10,
-            3
-        )
+            forecast_years = st.slider(
+                "Forecast Years",
+                1,
+                10,
+                3
+            )
 
-        periods = forecast_years * 12
+            periods = forecast_years * 12
 
-        future = model.make_future_dataframe(
-            periods=periods,
-            freq="M"
-        )
+            future = model.make_future_dataframe(
+                periods=periods,
+                freq="M"
+            )
 
-        forecast = model.predict(future)
+            forecast = model.predict(future)
 
     # --------------------------------------
     # Interactive Plot
     # --------------------------------------
 
-        st.subheader("Production Forecast")
+            st.subheader("Production Forecast")
 
-        fig = go.Figure()
+            fig = go.Figure()
 
-        fig.add_trace(go.Scatter(
-            x=forecast["ds"],
-            y=forecast["yhat"],
-            name="Forecast",
-            line=dict(width=3)
-        ))
+            fig.add_trace(go.Scatter(
+                x=forecast["ds"],
+                y=forecast["yhat"],
+                name="Forecast",
+                line=dict(width=3)
+            ))
 
-        fig.add_trace(go.Scatter(
-            x=forecast["ds"],
-            y=forecast["yhat_upper"],
-            name="Upper Confidence",
-            line=dict(width=0, dash="dot")
-        ))
+            fig.add_trace(go.Scatter(
+                x=forecast["ds"],
+                y=forecast["yhat_upper"],
+                name="Upper Confidence",
+                line=dict(width=0, dash="dot")
+            ))
 
-        fig.add_trace(go.Scatter(
-            x=forecast["ds"],
-            y=forecast["yhat_lower"],
-            fill='tonexty',
-            fillcolor='rgba(0,100,80,0.2)',
-            name="Confidence Interval",
-            line=dict(width=0, dash="dot")
-        ))
+            fig.add_trace(go.Scatter(
+                x=forecast["ds"],
+                y=forecast["yhat_lower"],
+                fill='tonexty',
+                fillcolor='rgba(0,100,80,0.2)',
+                name="Confidence Interval",
+                line=dict(width=0, dash="dot")
+            ))
 
-        fig.update_layout(
-            title=f"{selected_crop} Production Forecast",
-            xaxis_title="Year",
-            yaxis_title="Production",
-            template="plotly_white"
-        )
+            fig.update_layout(
+                title=f"{selected_crop} Production Forecast",
+                xaxis_title="Year",
+                yaxis_title="Production",
+                template="plotly_white"
+            )
 
-        st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True)
 
     # --------------------------------------
     # Components Plot
     # --------------------------------------
 
-        st.subheader("Trend & Seasonality")
+            st.subheader("Trend & Seasonality")
 
-        comp_fig = model.plot_components(forecast)
+            comp_fig = model.plot_components(forecast)
 
-        st.pyplot(comp_fig)
+            st.pyplot(comp_fig)
 # -------------------------------------------------
 # FOOTER
 # -------------------------------------------------
