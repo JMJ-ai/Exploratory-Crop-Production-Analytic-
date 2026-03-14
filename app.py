@@ -705,16 +705,6 @@ elif nav == "Forecasting":
 
                     st.subheader("Forecast Result")
 
-                    result_placeholder.markdown(
-                            f"""
-                            <div class="result-card">
-                            🌾 Forecasted Production<br><br>
-                            <b>{forecast:,.2f}</b>
-                            </div>
-                            """,
-                            unsafe_allow_html=True
-                        )
-
                     fig = go.Figure()
 
                     fig.add_trace(go.Scatter(
