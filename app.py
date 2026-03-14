@@ -231,7 +231,7 @@ if nav == "Home":
 # ==================================================
 elif nav == "Power BI Dashboard":
 
-    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
     st.title("Interactive Power BI Dashboard")
 
     power_bi_url = "https://app.powerbi.com/view?r=eyJrIjoiYWYzOTk5NjctNTI4Mi00MGU3LTg1Y2MtYjY3YTg4YzNlNGY0IiwidCI6ImE2M2JiMWE5LTQ4YzItNDQ4Yi04NjkzLTMzMTdiMDBjYTdmYiIsImMiOjEwfQ%3D%3D"
@@ -247,7 +247,7 @@ elif nav == "Power BI Dashboard":
 # ==================================================
 elif nav == "Exploratory Data Analysis":
 
-    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
     st.title("Production Trend Analysis")
 
     st.markdown("""
@@ -389,7 +389,7 @@ elif nav == "Exploratory Data Analysis":
 elif nav == "Cluster Insights":
 
     st.title("State Clustering by Agricultural Profile")
-    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.markdown("""
     <style>
@@ -506,7 +506,7 @@ elif nav == "Prediction":
     </style>
     """, unsafe_allow_html=True)
 
-    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.title("🌾 Crop Production Prediction")
 
@@ -519,9 +519,10 @@ elif nav == "Prediction":
         # =========================
         with sidebar:
             with st.container(key="sidebar"):
-
-                st.subheader("Fill details below")
-
+            
+                st.image("https://i.pinimg.com/1200x/68/fd/7b/68fd7b646d8f0b18ab50204dd32c807f.jpg")
+                st.subheader("Fill details below to predict crop production")
+                
                 crop = st.selectbox(
                     "Crop Type",
                     sorted(df["crop_type"].unique())
@@ -643,7 +644,7 @@ elif nav == "Forecasting":
     </style>
     """, unsafe_allow_html=True)
 
-    set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.title("📈 Crop Production Forecasting")
 
@@ -657,8 +658,9 @@ elif nav == "Forecasting":
         with sidebar:
             with st.container(key="sidebar"):
 
-                st.subheader("Fill details below")
-
+                st.image("https://i.pinimg.com/736x/40/f3/e6/40f3e6bd988eb9dfce39658b65b5c469.jpg")
+                st.subheader("Fill details below to forecast crop production")
+                
                 crop_list = list(prophet_models.keys())
 
                 selected_crop = st.selectbox(
