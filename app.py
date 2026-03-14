@@ -336,6 +336,7 @@ elif nav == "Cluster Insights":
 elif nav == "Prediction":
 
     set_background("https://64.media.tumblr.com/7e5be0b460f1404bfbf24807efa95f04/5bdfeadfc689526d-6d/s400x600/a87a377cee60d959ae9560c588ec691a2da470db.gif")
+
     st.title("📊 Crop Production Prediction")
 
     st.markdown("""
@@ -343,64 +344,123 @@ elif nav == "Prediction":
     Final model selected based on lowest RMSE and highest R².
     """)
 
+    # -------------------------------------------------
+    # CUSTOM CONTAINER STYLING
+    # -------------------------------------------------
+    st.markdown(
+        """
+        <style>
+
+        /* General container styling */
+        [class*="st-key-col_"] {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.6);
+
+            backdrop-filter: blur(6px);
+            transition: transform 0.3s ease;
+            min-height: 300px;
+        }
+
+        /* Hover animation */
+        [class*="st-key-col_"]:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Specific container colors */
+        .st-key-col_info {
+            background: rgba(93, 64, 55, 0.85);
+        }
+
+        .st-key-col_tool {
+            background: rgba(46, 125, 50, 0.85);
+        }
+
+        .st-key-col_year {
+            background: rgba(25, 118, 210, 0.85);
+        }
+
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # -------------------------------------------------
+    # COLUMNS
+    # -------------------------------------------------
     col1, col2, col3 = st.columns(3)
 
+    # -------------------------------------------------
+    # MODEL INFO
+    # -------------------------------------------------
     with col1:
+        with st.container(key="col_info"):
 
-        st.subheader("ℹ️ Prediction Model Info")
+            st.subheader("ℹ️ Prediction Model Info")
 
-        st.write("Algorithm:",config["model"]["algorithm_pred"])
-        st.write("R square score:",config["model"]["r_square_score"])
-        st.write("RMSE:",config["model"]["rmse"])
-        st.write("MAE:",config["model"]["MAE"])
-        
+            st.write("Algorithm:", config["model"]["algorithm_pred"])
+            st.write("R square score:", config["model"]["r_square_score"])
+            st.write("RMSE:", config["model"]["rmse"])
+            st.write("MAE:", config["model"]["MAE"])
+
+    # -------------------------------------------------
+    # PREDICTION INPUT
+    # -------------------------------------------------
     with col2:
-        st.subheader("✨ Prediction Tool")
-        crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
-        state = st.selectbox("State", sorted(df["state"].unique()))
-        planted_area_input = st.text_input(
-        "Planted Area (hectares)",
-        "1000"
-        )
+        with st.container(key="col_tool"):
 
-        precipitation_input = st.text_input(
-        "Precipitation (mm)",
-        "200"
-        )
+            st.subheader("✨ Prediction Tool")
 
+            crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
+            state = st.selectbox("State", sorted(df["state"].unique()))
 
+            planted_area_input = st.text_input(
+                "Planted Area (hectares)",
+                "1000"
+            )
+
+            precipitation_input = st.text_input(
+                "Precipitation (mm)",
+                "200"
+            )
+
+    # -------------------------------------------------
+    # YEAR + PREDICT BUTTON
+    # -------------------------------------------------
     with col3:
-        year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
+        with st.container(key="col_year"):
 
-        if st.button("Predict Production"):
+            year = st.slider("Year", int(df["year"].min()), int(df["year"].max()+3), 2023)
 
-            try:
+            if st.button("Predict Production"):
 
-                planted_area = float(planted_area_input)
-                precipitation = float(precipitation_input)
+                try:
+                    planted_area = float(planted_area_input)
+                    precipitation = float(precipitation_input)
 
-                input_df = pd.DataFrame({
-                    "state": [state],
-                    "crop_type": [crop],
-                    "planted_area":[planted_area],
-                    "precipitation":[precipitation],
-                    "year": [year]
-                })
+                    input_df = pd.DataFrame({
+                        "state": [state],
+                        "crop_type": [crop],
+                        "planted_area": [planted_area],
+                        "precipitation": [precipitation],
+                        "year": [year]
+                    })
 
-                # Model prediction (log scale output)
-                log_prediction = prediction_model.predict(input_df)
+                    log_prediction = prediction_model.predict(input_df)
 
-                # Reverse log transformation
-                prediction = np.expm1(log_prediction[0])
+                    prediction = np.expm1(log_prediction[0])
 
-                st.success(f"Predicted Production: {prediction:,.2f}")
+                    st.success(f"Predicted Production: {prediction:,.2f}")
 
-                st.caption(
-                "Prediction converted back from log scale to actual production value."
-                )
+                    st.caption(
+                        "Prediction converted back from log scale to actual production value."
+                    )
 
-            except ValueError:
-                st.error("Please enter valid numeric values for Planted Area and Precipitation.")
+                except ValueError:
+                    st.error("Please enter valid numeric values for Planted Area and Precipitation.")
 # =================================================
 # ML FORECASTING
 # =================================================
