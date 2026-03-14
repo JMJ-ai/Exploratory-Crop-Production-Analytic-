@@ -539,66 +539,66 @@ elif nav == "Prediction":
     # PREDICTION INPUT
     # -------------------------------------------------
     with col2:
-    with st.container(key="col_tool"):
+        with st.container(key="col_tool"):
 
-        st.subheader("✨ Prediction Tool")
+            st.subheader("✨ Prediction Tool")
 
         # Create rows
-        r1c1, r1c2 = st.columns(2)
-        r2c1, r2c2 = st.columns(2)
-        r3c1, r3c2 = st.columns(2)
+            r1c1, r1c2 = st.columns(2)
+            r2c1, r2c2 = st.columns(2)
+            r3c1, r3c2 = st.columns(2)
 
         # Row 1
-        with r1c1:
-            planted_area_input = st.text_input("Planted Area (hectares)", "1000")
+            with r1c1:
+                planted_area_input = st.text_input("Planted Area (hectares)", "1000")
 
-        with r1c2:
-            year = st.slider(
-                "Year",
-                int(df["year"].min()),
-                int(df["year"].max()+3),
-                2023
-            )
-
-        # Row 2
-        with r2c1:
-            precipitation_input = st.text_input("Precipitation (mm)", "200")
-
-        with r2c2:
-            predict_button = st.button("Predict Production")
-
-        # Row 3
-        with r3c1:
-            crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
-
-        # RESULT CARD PLACEHOLDER
-        with r3c2:
-            result_card = st.empty()
-
-        # Prediction Logic
-        if predict_button:
-            try:
-
-                planted_area = float(planted_area_input)
-                precipitation = float(precipitation_input)
-
-                input_df = pd.DataFrame({
-                    "state": [state],
-                    "crop_type": [crop],
-                    "planted_area": [planted_area],
-                    "precipitation": [precipitation],
-                    "year": [year]
-                })
-
-                log_prediction = prediction_model.predict(input_df)
-                prediction = np.expm1(log_prediction[0])
-
-                result_card.success(
-                    f"🌾 Predicted Production\n\n{prediction:,.2f}"
+            with r1c2:
+                year = st.slider(
+                    "Year",
+                    int(df["year"].min()),
+                    int(df["year"].max()+3),
+                    2023
                 )
 
-            except ValueError:
-                result_card.error("Invalid numeric input.")
+        # Row 2
+            with r2c1:
+                precipitation_input = st.text_input("Precipitation (mm)", "200")
+
+            with r2c2:
+                predict_button = st.button("Predict Production")
+
+        # Row 3
+            with r3c1:
+                crop = st.selectbox("Crop Type", sorted(df["crop_type"].unique()))
+
+        # RESULT CARD PLACEHOLDER
+            with r3c2:
+                result_card = st.empty()
+
+        # Prediction Logic
+            if predict_button:
+                try:
+
+                    planted_area = float(planted_area_input)
+                    precipitation = float(precipitation_input)
+
+                    input_df = pd.DataFrame({
+                        "state": [state],
+                        "crop_type": [crop],
+                        "planted_area": [planted_area],
+                        "precipitation": [precipitation],
+                        "year": [year]
+                    })
+
+                    log_prediction = prediction_model.predict(input_df)
+                    prediction = np.expm1(log_prediction[0])
+
+                    result_card.success(
+                        f"🌾 Predicted Production\n\n{prediction:,.2f}"
+                    )
+
+                except ValueError:
+                    result_card.error("Invalid numeric input.")
 # =================================================
 # ML FORECASTING
 # =================================================
