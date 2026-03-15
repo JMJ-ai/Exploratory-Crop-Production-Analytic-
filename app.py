@@ -247,7 +247,7 @@ elif nav == "Power BI Dashboard":
 # ==================================================
 elif nav == "Exploratory Data Analysis":
 
-    set_background("https://i.pinimg.com/1200x/d3/d9/ef/d3d9efe6cad4c42f9538ec5ed8517946.jpg")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
     st.title("Production Trend Analysis")
 
     st.markdown("""
@@ -389,7 +389,7 @@ elif nav == "Exploratory Data Analysis":
 elif nav == "Cluster Insights":
 
     st.title("State Clustering by Agricultural Profile")
-    set_background("https://i.pinimg.com/1200x/d3/d9/ef/d3d9efe6cad4c42f9538ec5ed8517946.jpg")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.markdown("""
     <style>
@@ -506,7 +506,7 @@ elif nav == "Prediction":
     </style>
     """, unsafe_allow_html=True)
 
-    set_background("https://i.pinimg.com/1200x/d3/d9/ef/d3d9efe6cad4c42f9538ec5ed8517946.jpg")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.title("🌾 Crop Production Prediction")
 
@@ -644,7 +644,7 @@ elif nav == "Forecasting":
     </style>
     """, unsafe_allow_html=True)
 
-    set_background("https://i.pinimg.com/1200x/d3/d9/ef/d3d9efe6cad4c42f9538ec5ed8517946.jpg")
+    set_background("https://i.pinimg.com/736x/70/28/b6/7028b6848eb4938c5754211ed4772def.jpg")
 
     st.title("📈 Crop Production Forecasting")
 
