@@ -160,7 +160,7 @@ if nav == "Home":
 
     <a href="#problem_statement">
         <button style="
-            background-color:#961006;
+            background-color:#6e460e;
             color:white;
             padding:15px 30px;
             border:none;
